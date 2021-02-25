@@ -3,11 +3,13 @@ import { List, Avatar, Row, Col } from 'antd';
 import axios from 'axios';
 import SideVideo from './Sections/SideVideo';
 import Subscriber from './Sections/Subscriber';
+import Comments from './Sections/Comments';
 
 function DetailVideoPage(props) {
 
     const videoId = props.match.params.videoId;
     const [Video, setVideo,] = useState([]);
+    const [CommentLists, setCommentLists] = useState([])
 
     const videoVariable = {
         videoId: videoId
@@ -23,6 +25,10 @@ function DetailVideoPage(props) {
                 }
             })
     }, [])
+
+    const updateComment =  (newComment) => {
+        setCommentLists(CommentLists.concat(newComment))
+    }
 
     if (Video.writer) {
         return (
@@ -41,6 +47,8 @@ function DetailVideoPage(props) {
                             />
                             <div></div>
                         </List.Item>
+
+                        <Comments CommentLists={CommentLists} postId={Video._id}  refreshFunction={updateComment} />
 
                     </div>
                 </Col>
